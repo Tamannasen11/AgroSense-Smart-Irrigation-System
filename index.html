@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#071522">
+    <title>Smart Irrigation | IoT Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js" defer></script>
+
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="#">
+                <span class="brand-icon">✳</span>
+                <span>Agro<span class="accent">Sense</span><small>SMART IRRIGATION</small></span>
+            </a>
+
+            <div class="side-label">WORKSPACE</div>
+            <a class="nav-link active" href="#overview">▦ <span>Overview</span></a>
+            <a class="nav-link" href="#sensors">◉ <span>Sensor Monitor</span></a>
+            <a class="nav-link" href="#controls">⏻ <span>Pump Controls</span></a>
+            <a class="nav-link" href="#reports">▤ <span>Reports & History</span></a>
+
+            <div class="sidebar-bottom">
+                <div class="connection-dot"></div>
+                <div><strong>Simulation Online</strong><small>Browser-based sensors</small></div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">SMART AGRICULTURE / CONTROL CENTER</p>
+                    <h1>Farm Dashboard <span class="live-pill"><i></i> LIVE</span></h1>
+                    <p class="subtitle">Monitor your crops. Optimize every drop.</p>
+                </div>
+                <div class="clock-panel">
+                    <span>LOCAL SYSTEM TIME</span>
+                    <strong id="clock">--:--:--</strong>
+                    <small id="dateLabel">Loading date...</small>
+                </div>
+            </header>
+
+            <section class="welcome-banner" id="overview">
+                <div class="banner-content">
+                    <span class="banner-tag">✦ INTELLIGENT WATER MANAGEMENT</span>
+                    <h2>Your farm, <span>smarter.</span></h2>
+                    <p>Track environmental conditions and manage irrigation from one place.</p>
+                    <a href="#controls" class="banner-button">Manage irrigation <span>→</span></a>
+                </div>
+                <div class="banner-art" aria-hidden="true">
+                    <div class="orbit orbit-one"></div>
+                    <div class="orbit orbit-two"></div>
+                    <div class="plant">🌱</div>
+                    <div class="art-glow"></div>
+                </div>
+            </section>
+
+            <div class="section-heading" id="sensors">
+                <div><span class="section-kicker">01 / ENVIRONMENT</span><h2>Sensor Overview</h2></div>
+                <span class="updated-label" id="lastUpdated">Waiting for first reading</span>
+            </div>
+
+            <section class="sensor-grid">
+                <article class="sensor-card moisture-card">
+                    <div class="sensor-top"><span class="sensor-icon">◉</span><span class="mini-tag">SOIL</span></div>
+                    <p class="sensor-label">Soil Moisture</p>
+                    <div class="sensor-reading"><strong id="moisture">45%</strong><span class="unit">%</span></div>
+                    <div class="meter"><div id="moistureBar"></div></div>
+                    <p class="sensor-foot" id="soilStatus">Soil moisture is moderate</p>
+                </article>
+
+                <article class="sensor-card">
+                    <div class="sensor-top"><span class="sensor-icon blue-icon">♨</span><span class="mini-tag">AIR</span></div>
+                    <p class="sensor-label">Temperature</p>
+                    <div class="sensor-reading"><strong id="temperatureValue">28</strong><span class="unit">°C</span></div>
+                    <div class="mini-track"><span class="temp-fill"></span></div>
+                    <p class="sensor-foot">Ambient temperature</p>
+                </article>
+
+                <article class="sensor-card">
+                    <div class="sensor-top"><span class="sensor-icon purple-icon">≈</span><span class="mini-tag">AIR</span></div>
+                    <p class="sensor-label">Humidity</p>
+                    <div class="sensor-reading"><strong id="humidityValue">62</strong><span class="unit">%</span></div>
+                    <div class="mini-track"><span class="humidity-fill"></span></div>
+                    <p class="sensor-foot">Relative air humidity</p>
+                </article>
+
+                <article class="sensor-card">
+                    <div class="sensor-top"><span class="sensor-icon blue-icon">▤</span><span class="mini-tag">WATER</span></div>
+                    <p class="sensor-label">Water Tank</p>
+                    <div class="sensor-reading"><strong id="tankValue">78</strong><span class="unit">%</span></div>
+                    <div class="meter"><div id="tankBar"></div></div>
+                    <p class="sensor-foot" id="tankStatus">Tank level is healthy</p>
+                    
+<div class="tank-control">
+    <label for="tankInput">
+        Adjust Water Tank Level:
+        <strong><span id="tankInputValue">78</span>%</strong>
+    </label>
+    <input
+        type="range"
+        id="tankInput"
+        min="0"
+        max="100"
+        value="78"
+        step="1"
+    />
+</div>
+
+                </article>
+            </section>
+            
+<!-- Live Sensor Monitoring Chart -->
+<section class="chart-section">
+    <div class="chart-header">
+        <div>
+            <h2>Live Sensor Monitoring</h2>
+            <p>Track sensor readings over time</p>
+        </div>
+        <span class="live-badge">● LIVE</span>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="sensorChart"></canvas>
+    </div>
+</section>
+
+
+            <section class="content-grid">
+                <article class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div><span class="section-kicker">LIVE TELEMETRY</span><h2>Moisture Analytics</h2></div>
+                        <span class="chart-legend"><i></i> Soil moisture</span>
+                    </div>
+                    <div class="chart-wrap"><canvas id="moistureChart" aria-label="Soil moisture readings over time"></canvas></div>
+                    <div class="chart-footer"><span>Target range: 30–60%</span><span id="chartReading">Current: --</span></div>
+                </article>
+
+                <article class="panel pump-panel" id="controls">
+                    <div class="panel-heading">
+                        <div><span class="section-kicker">02 / AUTOMATION</span><h2>Irrigation Control</h2></div>
+                        <span class="status-chip" id="pumpChip"><i></i> PUMP OFF</span>
+                    </div>
+
+                    <div class="pump-visual" id="pumpVisual">
+                        <div class="water-ring ring-a"></div>
+                        <div class="water-ring ring-b"></div>
+                        <div class="pump-symbol">⏻</div>
+                        <div class="water-drop">💧</div>
+                    </div>
+
+                    <div class="pump-state">
+                        <span>Current pump status</span>
+                        <strong id="pumpStatus">OFF</strong>
+                        <p id="pumpMessage">No watering required</p>
+                    </div>
+
+                    <label for="modeSelect">CONTROL MODE</label>
+                    <select id="modeSelect">
+                        <option value="auto">Automatic Mode</option>
+                        <option value="manual">Manual Mode</option>
+                    </select>
+                     <p>Backend Mode: <span id="modeStatus">AUTO</span></p>
+                     <p>Last Updated: <span id="lastUpdated">Waiting for data...</span></p>
+                     <p>
+    Backend Connection:
+    <span id="backendStatus">Checking...</span>
+</p>
+<p>Sensor Data: <span id="sensorFreshness">Checking...</span></p>
+                    <button id="manualPumpButton" class="primary-button full-button" type="button" >Turn Pump ON</button>
+                    <button id="liveToggleButton" class="secondary-button full-button" type="button">Start Live Monitoring</button>
+                    <button id="downloadReportButton" type="button">
+    Download Sensor Report
+</button>
+<section class="activity-history">
+    <h2>Irrigation Activity History</h2>
+    <ul id="activityHistory">
+        <li>No activity recorded yet.</li>
+    </ul>
+</section>
+                    <p class="control-note">Automatic mode starts the simulated pump when soil moisture drops below 30%.</p>
+                </article>
+            </section>
+
+            <section class="content-grid lower-grid">
+                <article class="panel">
+                    <div class="panel-heading">
+                        <div><span class="section-kicker">03 / SENSOR INPUT</span><h2>Moisture Simulator</h2></div>
+                        <span class="mini-tag">0–100%</span>
+                    </div>
+                    <div class="slider-value"><span>Simulated soil moisture</span><strong><span id="selectedValue">45</span>%</strong></div>
+                    <input id="moistureInput" type="range" min="0" max="100" value="45">
+                    <div class="range-labels"><span>0% · Dry</span><span>50% · Moderate</span><span>100% · Wet</span></div>
+                    <button id="checkButton" class="primary-button full-button" type="button">↻ Check Moisture</button>
+                    <p class="control-note">Move the slider to simulate a sensor reading. Live monitoring varies the value every five seconds.</p>
+                </article>
+
+                <article class="panel alert-panel">
+                    <div class="panel-heading">
+                        <div><span class="section-kicker">04 / SMART INSIGHTS</span><h2>System Alerts</h2></div>
+                        <span class="alert-symbol">⌁</span>
+                    </div>
+                    <div id="alertMessage" class="alert-message">Waiting for soil moisture reading...</div>
+                    
+<div class="threshold-control">
+    <label for="moistureThreshold">
+        Low Moisture Alert Threshold:
+        <strong><span id="thresholdValue">30</span>%</strong>
+    </label>
+
+    <input
+        id="moistureThreshold"
+        type="range"
+        min="10"
+        max="60"
+        value="30"
+        step="5"
+    />
+
+    <p class="control-note">
+        Get an alert when soil moisture falls below this value.
+    </p>
+</div>
+
+
+
+                    <div class="insight-row"><span>Moisture target</span><strong>30–60%</strong></div>
+                    <div class="insight-row"><span>Suggested action</span><strong id="suggestedAction">Monitor soil</strong></div>
+                    <div class="insight-row"><span>Monitoring</span><strong id="monitoringStatus">Standby</strong></div>
+                </article>
+            </section>
+
+            <section class="panel report-panel" id="reports">
+                <div class="panel-heading report-heading">
+                    <div><span class="section-kicker">05 / DATA & REPORTING</span><h2>Irrigation Activity</h2><p class="subtitle">Latest recorded sensor readings and pump events.</p></div>
+                    <button id="downloadCsvButton" class="primary-button" type="button">↓ Export CSV</button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-box"><span>Readings recorded</span><strong id="readingCount">0</strong></div>
+                    <div class="stat-box"><span>Average moisture</span><strong id="averageMoisture">--%</strong></div>
+                    <div class="stat-box"><span>Pump ON events</span><strong id="pumpEvents">0</strong></div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>TIME</th><th>MOISTURE</th><th>SOIL STATUS</th><th>PUMP</th></tr></thead>
+                        <tbody id="historyList"><tr><td colspan="4" class="empty-state">No readings yet. Check moisture to start your report.</td></tr></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer class="footer">
+                <span><span class="footer-dot"></span> AgroSense · Smart Irrigation Prototype</span>
+                <span>Simulation mode · No physical pump connected</span>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>
