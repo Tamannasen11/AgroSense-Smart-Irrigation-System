@@ -322,7 +322,7 @@ if (el.modeSelect.value === "auto") {
     if (currentPumpStatus !== lastSyncedPumpStatus) {
         lastSyncedPumpStatus = currentPumpStatus;
 
-        fetch("http://https://agrosense-smart-irrigation-system.onrender.com/api/pump", {
+        fetch("http://agrosense-smart-irrigation-system.onrender.com/api/pump", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -603,7 +603,7 @@ console.log("Tank slider changed to:", level);
         
 updateSystem(false);
 
-fetch("http://https://agrosense-smart-irrigation-system.onrender.com/api/sensors", {
+fetch("http://agrosense-smart-irrigation-system.onrender.com/api/sensors", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -635,7 +635,7 @@ el.modeSelect.addEventListener("change", async () => {
     try {
         // Send the selected mode to the backend
         const modeResponse = await fetch(
-            "http://https://agrosense-smart-irrigation-system.onrender.com/api/mode",
+            "http://agrosense-smart-irrigation-system.onrender.com/api/mode",
             {
                 method: "POST",
                 headers: {
@@ -651,7 +651,7 @@ el.modeSelect.addEventListener("change", async () => {
 
         // Send the current simulated pump status too
         const pumpResponse = await fetch(
-            "http://https://agrosense-smart-irrigation-system.onrender.com/api/pump",
+            "http://agrosense-smart-irrigation-system.onrender.com/api/pump",
             {
                 method: "POST",
                 headers: {
@@ -689,7 +689,7 @@ el.manualPumpButton.addEventListener("click", async () => {
 
     try {
         const response = await fetch(
-            "http://https://agrosense-smart-irrigation-system.onrender.com/api/pump",
+            "http://agrosense-smart-irrigation-system.onrender.com/api/pump",
             {
                 method: "POST",
                 headers: {
@@ -756,7 +756,7 @@ let sensorStaleTimer;
 async function testBackendConnection() {
     try {
         const response = await fetch(
-            "http://https://agrosense-smart-irrigation-system.onrender.com/api/sensors"
+            "http://agrosense-smart-irrigation-system.onrender.com/api/sensors"
         );
 
         if (!response.ok) {
